@@ -21,9 +21,9 @@ Error Page
 .error-box {
     height: 100%;
     position: fixed;
-    background: url(../../../assets/images/background/patio-coede.jpg) no-repeat center center rgb(127, 153, 11);
+    background: url(../../assets/images/background/patio-coede.jpg) no-repeat center center rgb(127, 153, 11);
     width: 100%; }
-    .error-box .footer {
+    .error-box .footer { 
       width: 100%;
       left: 0px;
       right: 0px; }

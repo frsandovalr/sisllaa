@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor( private usuarioService: UsuarioService ) { }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+     this.usuarioService.logout();
+     Swal.fire('Bye','Ha cerrado sesion','info');
   }
 
 }
