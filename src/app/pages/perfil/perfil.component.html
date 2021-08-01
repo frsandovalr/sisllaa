@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">MI PERFIL DE USUARIO</h4>
+                <hr >
+                <form class="form p-t-20"
+                      [formGroup] = "changePasswordForm"
+                      (submit) = "cambiarPassword()">
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Username:</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"> {{usuario.username}} </p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Rol asignado:</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"> {{roles}} </p>
+                        </div>
+                    </div>
+                    <hr >
+                    <h6 class="card-title">ASIGNADO A</h6>
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Grado - Arma:</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"> {{usuario.grado}} - {{usuario.arma}} </p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Apellidos y Nombres:</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"> {{usuario.apellidosNombres}} </p>
+                        </div>
+                    </div>
+                    <hr >
+                    <h6 class="card-title">DEPENDENCIA</h6>
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">NN - GU - UU:</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static"> {{nucleo}} - {{brigada}} - {{dependencia}} </p>
+                        </div>
+                    </div>
+                    <hr >
+                    <h6 class="card-title">CAMBIAR CLAVE DE ACCESO</h6>
+                    <div class="form-group">
+                        <label for="pwd1">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-lock"></i></div>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="pwd1" 
+                                   placeholder="Ingresar Nuevo Password"
+                                   formControlName="password">
+                                  
+                        </div>
+                        <small class="form-control-feedback"> Mínimo ocho (08) caracteres.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd2">Confirm Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-lock"></i></div>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="pwd2" 
+                                   placeholder="Confirmar Nuevo Password"
+                                   formControlName="password2">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col text-danger">
+                            <p *ngIf="passwordsNoValidos()"> Las contraseñas deben de ser iguales</p>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="btn btn-danger waves-effect waves-light m-r-10"
+                            [disabled]= "changePasswordForm.invalid">Cambiar Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Avatar</h4>
+                <h6 class="card-subtitle">Imagen del Usuario</h6>
+
+                <div class="text-center">
+                    <img *ngIf="!imgTemp" [src] = "usuario.fotoUrl"  class="img-avatar">
+                    <img *ngIf="imgTemp" [src] = "imgTemp"  class="img-avatar">
+
+                </div>
+                <input type="file"
+                       (change)="cambiarImagen($event)">
+                <br>
+                <br>
+                <button type="button" 
+                     class="btn btn-primary waves-effect waves-light m-r-10"
+                     [disabled]="!imagenSubir"
+                     (click)= "subirImagen()">
+                    <i class="fa fa-save"></i>
+                    Cambiar Imagen</button>
+            </div>
+        </div>
+    </div>
+</div>

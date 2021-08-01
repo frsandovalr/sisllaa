@@ -1,1 +1,81 @@
-<p>usuario works!</p>
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+<input type="text"
+       class="form-control"
+       placeholder="Buscar Usuario">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast"
+      *ngIf="cargando">
+    <div class="col-12">
+      <div class="alert alert-info text-center">
+          <h4 class="alert-heading"> Cargando</h4>
+          <i class="fa fa-spin fa-refresh fa-2x"></i>
+          <p class="mb-0">Por favor espere</p>
+      </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast">
+    <div class="col-2">
+        <div class="card">
+            <button class="btn btn-info waves-effect waves-light" 
+            type="button"
+            [routerLink]="['form']" >
+            <span class="btn-label">
+            <i class="mdi mdi-account-card-details"></i>
+            </span>Crear</button>
+        </div>  
+    </div>
+</div>
+
+<div class="row animated fadeIn fast"
+     *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Usuarios</h3>
+                <h4 class="card-subtitle">Total de Usuarios registrados en el SISLLAA. -  {{paginador.totalElements}} </h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="w100">Usuario</th>
+                                <th>Grado</th>
+                                <th>Arma</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Cargo</th>
+                                <th class="text-nowrap w100">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuario of usuarios">
+                                <td>{{usuario.username}}</td>
+                                <td>{{usuario.grado}}</td>
+                                <td>{{usuario.arma}}</td>
+                                <td>{{usuario.apellidosNombres}}</td>
+                                <td>{{usuario.cargo}}</td>
+                                <td class="text-nowrap text-center">
+                                    <a data-toggle="tooltip" data-original-title="Editar" [routerLink]="['form', usuario.id]"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                    <a data-toggle="tooltip" 
+                                    data-original-title="Borrar" 
+                                          class="mano"
+                                    (click) ="eliminarUsuario(usuario)" > 
+                                    <i class="fa fa-close text-danger"></i> 
+                                </a>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <paginador-nav (nroPagina)="cambioPag( $event )" *ngIf="paginador" [paginador] = "paginador"></paginador-nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

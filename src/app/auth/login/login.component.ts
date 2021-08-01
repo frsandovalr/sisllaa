@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent  {
+export class LoginComponent implements OnInit{
 
   public formSubmitted = false;
 
@@ -20,66 +20,45 @@ export class LoginComponent  {
     remember: [false]
   });
 
-  constructor(private router: Router,
-              private fb: FormBuilder,
-             private usuarioService: UsuarioService) { }
+  constructor(private router: Router, private fb: FormBuilder,private authService: AuthService) { }
+ 
+  ngOnInit() {
+    if(this.authService.isAuthenticated()) {
+    this.router.navigateByUrl('/');
+    Swal.fire('Info', `Ya has iniciado sesion.`, 'info');
+    } 
+   
+  }
   
   login() {
 
-    console.log(this.loginForm.value);
-  if (this.loginForm.value['username'] == '' || this.loginForm.value['password'] == '' ) {
-    Swal.fire('Error Login', `Usuario o password vacios` , 'error');
-    return;
-  } else {
+    if (this.loginForm.value['username'] == '' || this.loginForm.value['password'] == '') {
+      Swal.fire('Error Login', `Usuario o password vacios`, 'error');
+      return;
+    } else {
 
-    if (this.loginForm.value['remember']) {
-      localStorage.setItem('username', this.loginForm.value['username']);
-     } else {
-       localStorage.removeItem('username');
-    }
- 
-     this.usuarioService.login(this.loginForm.value).subscribe((data: any) => {
-       let payload = JSON.parse(atob(data.access_token.split(".")[1]));
-     //  console.log(data);
-     //  console.log( payload);
-       Swal.fire('Login', `Bienvenido ${payload.user_name}, ha iniciado sesion con exito` , 'success');
-       this.router.navigateByUrl('/');
-     }, err => {
-      console.log(err);
-      if (err.status == 400) {
-        Swal.fire('Error Login', `Usuario o password incorrectos!` , 'error');
+      if (this.loginForm.value['remember']) {
+        localStorage.setItem('username', this.loginForm.value['username']);
+      } else {
+        localStorage.removeItem('username');
       }
-    });
-  }
 
-  
-  }
-    // gracias cristian
-   // queda
-    
-
-
-    /* this.usuarioService.login(this.loginForm.value)
-      .subscribe(resp => {
-
-       if (this.loginForm.get('remember').value) {
-          localStorage.setItem('username', this.loginForm.get('username').value);
-        }else {
-          localStorage.removeItem('username');
-        }
-
-
-        //  Swal.fire('Login', 'Bienvenido','success');
-        // this.router.navigateByUrl('/');
-
+      this.authService.login(this.loginForm.value).subscribe((data: any) => {
+       // console.log(data);
+       this.authService.guardarToken(data.access_token);
+      
+       // let payload = JSON.parse(atob(data.access_token.split(".")[1]));
+        Swal.fire('Login', `Bienvenido:  ${data.User}, has iniciado sesion con éxito`, 'success');
+        this.router.navigateByUrl('/');
       }, err => {
         if (err.status == 400) {
-          Swal.fire('Error de Login', 'Datos incorrectos', 'error');
+          Swal.fire('Error Login', `Usuario o password incorrectos!`, 'error');
         }
-      }); */
+      });
+    }
+  }
 
-  
-  
+
 }
 
 

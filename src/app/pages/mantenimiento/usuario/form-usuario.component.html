@@ -1,0 +1,191 @@
+<div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Mantenimiento del Usuario del SISLLAA</h4>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="usuarioForm" >
+                    <div class="form-body">
+                        <h3 class="card-title">Información del Usuario</h3>
+                        <hr>
+                        <div class="row p-t-20">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Username</label>
+                                    <input type="text" id="firstName" class="form-control" formControlName="username"
+                                        placeholder="Ingrese un Username" style="text-transform:uppercase">
+                                    <small class="form-control-feedback"> Nombre del Usuario en el sistema </small>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-lg-6">
+                                <label class="control-label">CIP</label>
+                                <div>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Buscar CIP..."
+                                            formControlName="cip">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info" 
+                                                    type="button"
+                                                    (click)="BuscarPersona()">
+                                                    <i class="fa fa-user-circle-o"></i></button>
+                                        </span>
+                                    </div>
+                                    <small class="form-control-feedback"> Digite un numero de CIP, de click en la lupa </small>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Grado</label>
+                                    <input type="text" class="form-control" 
+                                           formControlName="grado" 
+                                           readonly>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Arma / Espec</label>
+                                    <input type="text" class="form-control" formControlName="arma" readonly>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <div class="form-group">
+                                    <label>Apellidos y Nombres</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           formControlName="apellidosNombres" 
+                                           readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>DNI</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           formControlName="dni" 
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--/row-->
+
+                        <h3 class="box-title m-t-40">Nucleo - Gran Unidad - Unidad del Usuario</h3>
+                        <hr>
+                        <!-- row-->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Nucleo</label>
+                                    <select [compareWith]="compararNucleo" class="form-control custom-select"
+                                        name="nucleo" formControlName="nucleo" (change)="cambioNucleo()">
+                                        <option>--Selecione Nucleo--</option>
+                                        <option *ngFor="let nucleo of _listaNucleo;let i= index" [ngValue]="nucleo">
+                                            {{nucleo.nombreCorto}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gran Unidad</label>
+                                    <select [compareWith]="compararBrigada" class="form-control custom-select"
+                                        name="brigada" formControlName="brigada" (change)="listarDependencia()">
+                                        <option>--Selecione Gran unidad--</option>
+                                        <option *ngFor="let brigada of _listaBrigada;let i= index" [ngValue]="brigada">
+                                            {{brigada.nombreCorto}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Unidad</label>
+                                    <select [compareWith]="compararDependencia" class="form-control custom-select"
+                                        name="dependencia" formControlName="dependencia">
+                                        <option>--Selecione Unidad--</option>
+                                        <option *ngFor="let dependencia of _listaDependencia;let i= index"
+                                            [ngValue]="dependencia">{{dependencia.nombreCorto}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Cargo del Usuario</label>
+                                    <input type="text" class="form-control" formControlName="cargo"
+                                        style="text-transform:uppercase">
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    <div class="checkbox">
+                                        <input id="checkbox1" class="form-control filled-in chk-col-light-blue"
+                                            type="checkbox" formControlName="enabled">
+                                        <label for="checkbox1"> Activo </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        <h3 class="box-title m-t-40">Roles otrogados al Usuario</h3>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Seleccione el Role o Roles a
+                                otrorgar</label>
+                            <div class="col-md-9">
+                                <ng-multiselect-dropdown 
+                                    formControlName="roles" 
+                                    [placeholder]="'Lista de Roles'"
+                                    [settings]="dropdownSettings" 
+                                    [data]="rolesLista"
+                                    (onSelect)="onItemSelect($event)">
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <hr>
+                    <div class="row">
+                        <div class="col text-danger">
+                            <p *ngIf="campoNovalido('username')">* El Username es obligarotio</p>
+                            <p *ngIf="campoNovalido('cargo')">* Tiene que registrar un cargo</p>
+                            <p *ngIf="campoNovalido('cip')">* Debe ingresar un CIP valido</p>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-actions">
+                        <div>
+                           <button type="button" 
+                                    class="btn btn-success" 
+                                    (click)='crearUsuario()' 
+                                    *ngIf="nuevo else elseBlock" ><i class="fa fa-check"></i> Save</button>
+                         <ng-template  #elseBlock>
+                            <button type="button" 
+                                    class="btn btn-success" 
+                                    (click)='actualizarUsuario()' 
+                                     ><i class="fa fa-check"></i> Actualizar </button>
+                         </ng-template>
+                         <button type="button" 
+                                 class="btn btn-inverse"
+                                 (click)='salir()'  >Cancelar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

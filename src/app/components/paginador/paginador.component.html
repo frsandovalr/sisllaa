@@ -1,0 +1,33 @@
+<ul *ngIf="paginas.length > 0" class="pagination"> 
+
+    <li class="page-item" *ngIf="paginador.number >0">
+
+        <button type="button" class="btn btn-block btn-outline-info"  (click)="antPag(paginador.number - 1)" >&laquo;</button>
+    </li>
+
+
+    <li class="disabled">
+
+        <button type="button" class="btn btn-block btn-outline-info"  (click)="primeraPag(0)" >Primera</button>
+
+      
+    </li>
+    
+
+    <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="pagina == paginador.number?'disabled':''">  
+       
+       <button  type="button" class="btn btn-block btn-outline-info " value= {{pagina}} (click)="obtenerPag(pagina)" > {{pagina}}</button>
+         
+    </li>
+
+    <li class="disabled">
+
+        <button type="button" class="btn btn-block btn-outline-info"  (click)="ultimaPag(paginador.totalPages-1)" >Última</button>
+    </li>
+
+    <li class="page-item" *ngIf="paginador.number < paginador.totalPages -1">
+
+        <button type="button" class="btn btn-block btn-outline-info"  (click)="sigPag(paginador.number + 1)" >&raquo;</button>
+    </li>
+    
+</ul>

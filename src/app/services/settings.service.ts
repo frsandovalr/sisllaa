@@ -15,11 +15,11 @@ export class SettingsService {
   }
 
 
+
+
   changeTheme(theme: string) {
   
     const url = `./assets/css/colors/${ theme }.css`;
- 
-    //console.log(url);
     this.linkTheme?.setAttribute('href', url);
     localStorage.setItem('theme',url);
     this. checkCurrentTheme();
